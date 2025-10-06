@@ -55,7 +55,7 @@ class Transfuser:
 
     def compute_lambda(self, beta, beta0=0.6):
         """Compute λ as nonlinear function of β"""
-        return self.lambda0 * (1 + 0.2 * (beta / beta0))
+        return self.lambda0 * (1 + 0.1 * (beta / beta0))
 
     def amplify(self, t, lam):
         """Return normalized exponential amplification"""

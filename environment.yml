@@ -1,18 +1,72 @@
 name: utf2
 channels:
-  - defaults
   - conda-forge
+  - defaults
 dependencies:
+  # --- Core Python ---
   - python=3.10
+  - pip
+  - ipython
+  - jupyterlab
+  - notebook
+
+  # --- Scientific Stack ---
   - numpy
+  - pandas
   - scipy
   - matplotlib
-  - pandas
+  - seaborn
+  - sympy
+
+  # --- Reproducibility & Validation ---
   - pytest
-  - pyyaml
-  - requests
+  - pytest-cov
   - pre-commit
-  - jupyterlab
-  - pip
+  - flake8
+  - black
+  - isort
+
+  # --- Versioning & Metadata Tools ---
+  - gitpython
+  - pyyaml
+  - jsonschema
+
+  # --- Visualization & Export ---
+  - graphviz
+  - python-graphviz
+  - pillow
+
+  # --- Documentation / Reports ---
+  - sphinx
+  - sphinx_rtd_theme
+  - pandoc
+
+  # --- Zenodo / arXiv Integration ---
+  - requests
+  - tqdm
+
+  # --- Environment Management ---
+  - conda-build
+  - conda-lock
+
+  # --- Optional GPU or HPC (comment out if not used) ---
+  # - cudatoolkit=11.8
+  # - cupy
+
+  # --- pip Extras (for utf modules) ---
   - pip:
-      - jq
+      - pre-commit-hooks
+      - gitpython
+      - jupyterlab-vim
+      - rich
+      - colorama
+      - tabulate
+      - markdownify
+      - zenodo-api-client
+      - arxiv
+
+# Environment variables for reproducibility
+variables:
+  UTF_DEBUG: "0"
+  UTF_DATA_DIR: "./data"
+  MPLBACKEND: "Agg"  # headless CI-safe plotting

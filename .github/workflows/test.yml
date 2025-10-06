@@ -37,3 +37,11 @@ jobs:
         with:
           name: pytest-results
           path: .pytest_cache
+
+- name: Log Chaos Kernel tuning results
+  run: python scripts/run_f_tuning.py
+
+- name: Generate release-annotated visualizer
+  run: |
+    python -m src.utf.tuning.visualizer_release
+    cp data/f_tuning_history_annotated.png artifacts/

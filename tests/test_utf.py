@@ -6,6 +6,15 @@
 #     pytest -v tests/test_utf.py
 # ---------------------------------------
 
+# tests/test_utf.py
+import sys, os
+# This line attempts to add D:\buck\model\utfv2\src to the path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src")))
+
+# ... then import the module inside the folder that was just added:
+from utf.operators import Transmutor, Transducer, Transfuser, UTFSimulation
+# Note: `src` is no longer part of the import path.
+
 import numpy as np
 import pytest
 from src.utf.operators import Transmutor, Transducer, Transfuser, UTFSimulation
