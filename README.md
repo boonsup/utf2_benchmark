@@ -58,7 +58,9 @@ pre-commit install
 
 ![f_chaos_kernel](figures/f_chaos_kernel.png)
 ![f_sweep_results](figures/f_sweep_results.png)
-
+![release_environment_density](figures/release_environment_density.png)
+![release_environment_timeline](figures/release_environment_timeline.png)
+![release_doi_growth](figures/release_doi_growth.png)
 
 ## 📦 Release Dashboard
 
@@ -72,8 +74,9 @@ pre-commit install
 
 
 
+
 ## 📈 Release Analytics  
-*(Auto-generated on 2025-10-06 14:53:28 UTC)*  
+*(Auto-generated on 2025-10-06 15:03:53 UTC)*  
 
 ![DOI Growth](figures/release_doi_growth.png)  
 ![Environment Timeline](figures/release_environment_timeline.png)  
@@ -84,5 +87,6 @@ pre-commit install
 **Total Releases:** `2`  
 
 ---
+
 
 
