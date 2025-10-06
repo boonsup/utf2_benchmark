@@ -67,3 +67,11 @@ data/*.csv
 !data/f_tuning_history.csv
 __pycache__/
 .ipynb_checkpoints/
+
+.env
+release_badge.svg
+__pycache__/
+data/*.csv
+
+seed/
+*.zip
