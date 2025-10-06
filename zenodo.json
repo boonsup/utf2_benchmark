@@ -1,0 +1,35 @@
+
+---
+
+## 📄 2. `zenodo.json`
+```json
+{
+  "title": "Unified Transmutation Framework (UTF-2.0) Benchmark Dataset",
+  "creators": [
+    {
+      "name": "Boonsup Waikham",
+      "affiliation": "Independent Researcher"
+    }
+  ],
+  "description": "A reproducible, open-source benchmark implementing the Unified Transmutation Framework (UTF-2.0). Includes Colab notebook, Python modules, and sample datasets modeling the coupling between quantum transmutation (T̂), thermodynamic transduction (D̂), and classical chaos (F̂).",
+  "keywords": [
+    "quantum chaos",
+    "decoherence",
+    "energy transport",
+    "multi-scale modeling",
+    "reproducible research"
+  ],
+  "license": "MIT",
+  "upload_type": "dataset",
+  "access_right": "open",
+  "notes": "Companion to the UTF-2.0 arXiv preprint. Contains runnable Colab notebook and reproducibility scripts.",
+  "related_identifiers": [
+    {
+      "identifier": "https://arxiv.org/abs/[your-arxiv-id]",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "version": "1.0",
+  "publication_date": "2025-10-06"
+}

@@ -1,0 +1,46 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it using the following metadata."
+title: "Unified Transmutation Framework (UTF-2.0)"
+doi: "10.xxxx/zenodo.xxxxxxx"
+version: "v2.0.0"
+date-released: "2025-10-06"
+repository-code: "https://github.com/boonsupw/utf2_benchmark"
+commit: "abcdef1"
+license: MIT
+abstract: >
+  UTF-2.0 formalizes a cross-scale energy and information transport framework,
+  coupling quantum (T̂), thermodynamic (D̂), and classical (F̂) operators.
+  This release provides reproducible Colab benchmarks, validation notebooks,
+  Zenodo-linked datasets, and CI/CD integration for open-science reproducibility.
+
+authors:
+  - family-names: "Waikham"
+    given-names: "Boonsup"
+    orcid: "https://orcid.org/0000-0002-XXXX-XXXX"
+    affiliation: "Independent Researcher"
+  - family-names: "Nguyen"
+    given-names: "Lan"
+    orcid: "https://orcid.org/0000-0003-YYYY-YYYY"
+    affiliation: "Quantum Information Laboratory, Hanoi University"
+  - family-names: "Smith"
+    given-names: "Ava"
+    orcid: "https://orcid.org/0000-0002-ZZZZ-ZZZZ"
+    affiliation: "Department of Physics, University of Amsterdam"
+
+contributors:
+  - family-names: "Zhang"
+    given-names: "Liang"
+    orcid: "https://orcid.org/0000-0003-AAAA-AAAA"
+    affiliation: "Institute for Complex Systems, Beijing"
+    roles: ["data-curation", "visualization"]
+  - family-names: "Kaur"
+    given-names: "Meera"
+    affiliation: "Centre for Quantum Thermodynamics, Toronto"
+    roles: ["testing", "software"]
+
+keywords:
+  - quantum chaos
+  - decoherence
+  - open systems
+  - energy transduction
+  - reproducible research

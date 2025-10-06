@@ -1,0 +1,31 @@
+# UTF-2.0 Pre-Commit Configuration
+# --------------------------------
+# This configuration ensures that all contributors automatically
+# validate metadata consistency across zenodo.json, CITATION.cff,
+# citation.bib, and tex/references.bib before every commit.
+# It uses your existing Python validator script.
+
+repos:
+  # Local repository hook for metadata consistency
+  - repo: local
+    hooks:
+      - id: utf-metadata-validator
+        name: UTF-2.0 Metadata Consistency Check
+        entry: python3 scripts/validate_metadata_sync.py
+        language: system
+        types: [file]
+        pass_filenames: false
+        verbose: true
+        description: >
+          Ensure DOI, version, and publication_date are synchronized
+          across zenodo.json, CITATION.cff, citation.bib, and references.bib.
+
+  # (Optional) Generic hygiene hooks for scientific repos
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending

@@ -1,0 +1,159 @@
+name: UTF-2.0 Continuous Validation, DOI Sync & Citation Automation
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  release:
+    types: [created]
+
+jobs:
+  test:
+    name: Run UTF-2.0 Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest numpy pandas matplotlib scipy
+
+      - name: Run test suite
+        run: |
+          pytest -v --maxfail=1 --disable-warnings
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results
+          path: .pytest_cache
+
+  publish:
+    name: Publish to Zenodo & Update Metadata
+    needs: [test]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' && needs.test.result == 'success'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update zenodo.json metadata
+        run: |
+          echo "🧭 Updating zenodo.json metadata..."
+          python - <<'PYCODE'
+          import json, datetime
+          path = "zenodo.json"
+          with open(path) as f:
+              data = json.load(f)
+          import os
+          tag = os.environ.get("GITHUB_REF_NAME", "v0.0.0")
+          data["version"] = tag
+          data["publication_date"] = datetime.date.today().isoformat()
+          with open(path, "w") as f:
+              json.dump(data, f, indent=2)
+          print(f"✅ Updated zenodo.json to version={tag}")
+          PYCODE
+
+      - name: Commit updated zenodo.json
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add zenodo.json
+          git commit -m "chore: update zenodo.json metadata" || echo "No changes"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Trigger Zenodo DOI sync
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          echo "🚀 Triggering Zenodo DOI sync for ${RELEASE_TAG}"
+          curl -X POST \
+               -H "Content-Type: application/json" \
+               -H "Authorization: Bearer $ZENODO_TOKEN" \
+               -d "{\"metadata\": {\"title\": \"UTF-2.0 Release ${RELEASE_TAG}\", \"upload_type\": \"dataset\", \"version\": \"${RELEASE_TAG}\"}}" \
+               https://zenodo.org/api/deposit/depositions
+
+      - name: Update research-grade release banner
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          COMMIT_HASH: ${{ github.sha }}
+        run: |
+          DOI_URL=$(curl -s -H "Authorization: Bearer $ZENODO_TOKEN" https://zenodo.org/api/deposit/depositions?size=1 | jq -r '.[0].doi')
+          ARXIV_ID=$(grep -oP '(?<=arXiv.org/abs/)[0-9]{4}\.[0-9]{5}' README.md || echo '2501.xxxxx')
+          NEW_BANNER="<!-- UTF-2.0 Research-Grade Release Banner (auto-updated) -->
+<p align=\"center\">
+
+<b>Unified Transmutation Framework (UTF-2.0)</b> •  
+<code>DOI:</code> [![DOI](https://zenodo.org/badge/DOI/${DOI_URL}.svg)](https://doi.org/${DOI_URL}) •  
+<code>arXiv:</code> [arXiv:${ARXIV_ID}](https://arxiv.org/abs/${ARXIV_ID}) •  
+<code>Git Commit:</code> [\`${COMMIT_HASH::7}\`](https://github.com/${{ github.repository }}/commit/${COMMIT_HASH})
+
+</p>
+
+---
+"
+          echo "$NEW_BANNER" > _banner.md
+          if grep -q "UTF-2.0 Research-Grade Release Banner" README.md; then
+              awk '/UTF-2.0 Research-Grade Release Banner/{exit}1' README.md > _readme_tail.md
+              cat _banner.md _readme_tail.md > README.md
+          else
+              echo -e "$NEW_BANNER\n$(cat README.md)" > README.md
+          fi
+          rm -f _banner.md _readme_tail.md
+
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add README.md
+          git commit -m "docs: update research-grade release banner" || echo "No changes"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Auto-generate CITATION.cff
+        env:
+          ZENODO_TOKEN: ${{ secrets.ZENODO_TOKEN }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          COMMIT_HASH: ${{ github.sha }}
+        run: |
+          echo "🧾 Generating CITATION.cff..."
+          DOI_URL=$(curl -s -H "Authorization: Bearer $ZENODO_TOKEN" https://zenodo.org/api/deposit/depositions?size=1 | jq -r '.[0].doi')
+          DATE=$(date -u +"%Y-%m-%d")
+          cat > CITATION.cff <<EOF
+cff-version: 1.2.0
+message: "If you use this work, please cite the following DOI."
+title: "Unified Transmutation Framework (UTF-2.0)"
+authors:
+  - family-names: "Waikham"
+    given-names: "Boonsup"
+doi: "${DOI_URL}"
+version: "${RELEASE_TAG}"
+date-released: "${DATE}"
+repository-code: "https://github.com/${{ github.repository }}"
+commit: "${COMMIT_HASH}"
+license: MIT
+abstract: "UTF-2.0 defines the coupled operators (T̂, D̂, F̂) for cross-scale transmutation, transduction, and transfusion of energy and information. This repository provides reproducible Python benchmarks, Zenodo DOI linkage, and continuous validation."
+EOF
+
+          git add CITATION.cff
+          git commit -m "chore: auto-generate CITATION.cff for ${RELEASE_TAG}" || echo "No changes"
+          git push origin HEAD:${{ github.ref_name }}
+          echo "✅ CITATION.cff generated with DOI ${DOI_URL}"
+
+
+      - name: Append citation to Overleaf references.bib
+        run: |
+          python scripts/export_citation_bibtex.py --append
+          git add tex/references.bib citation.bib
+          git commit -m "docs: append UTF-2.0 citation to tex/references.bib for release ${{ github.ref_name }}" || echo "No changes"
+          git push origin HEAD:${{ github.ref_name }}

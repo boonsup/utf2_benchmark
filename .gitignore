@@ -1,0 +1,63 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+build/
+dist/
+
+# Jupyter
+.ipynb_checkpoints/
+.notebook_hidden/
+
+# Environment / Conda
+.env
+.venv/
+env/
+venv/
+ENV/
+*.conda
+*.lock
+
+# Data outputs
+data/
+results/
+outputs/
+*.csv
+*.npy
+*.npz
+*.h5
+
+# Test / coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.cache
+pytest_cache/
+
+# IDE & OS
+.DS_Store
+.idea/
+.vscode/
+Thumbs.db
+
+# Reproducibility outputs
+*.log
+*.tmp
+*.bak
+*.old
+*.pdf
+*.svg
+*.png
+*.jpg
+
+# Zenodo & metadata backups
+*.zenodo_backup.json
+*.metadata_backup.yaml
+
+# Local hook overrides
+.githooks/*
+!githooks/validate_metadata
