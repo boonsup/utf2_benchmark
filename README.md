@@ -1,3 +1,8 @@
+[![DOI](https://sandbox.zenodo.org/badge/DOI/10.5072/zenodo.344960.svg)](https://doi.org/10.5072/zenodo.344960)
+[![Zenodo DOI Sync](https://github.com/YOURUSER/utfv2/actions/workflows/zenodo_sync.yaml/badge.svg)](https://github.com/YOURUSER/utfv2/actions/workflows/zenodo_sync.yaml)
+
+
+
 # Unified Transmutation Framework (UTF-2.0)
 ### A Reproducible Benchmark for Cross-Scale Energy and Information Flow
 
@@ -48,3 +53,8 @@ To ensure metadata consistency and clean commits, run:
 ```bash
 pip install pre-commit
 pre-commit install
+
+## 📊 Latest Benchmarks
+
+![f_chaos_kernel](figures/f_chaos_kernel.png)
+![f_sweep_results](figures/f_sweep_results.png)

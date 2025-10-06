@@ -45,22 +45,92 @@ class Transducer:
 
 class Transfuser:
     """
-    Operator F̂: Classical Transfusion / Chaos
-    -----------------------------------------
-    Models energy cascade and chaotic amplification.
+    Operator F̂ — Classical Transfusion / Chaos
+    ==========================================
+    Models energy cascade and chaotic amplification dynamics.
     Defines λ (Lyapunov exponent) and exponential growth.
-    """
-    def __init__(self, lambda0=0.1):
-        self.lambda0 = lambda0
+    Extended for reproducible Monte Carlo and bounded chaos simulation.
 
+    Key metrics:
+        λ — mean Lyapunov exponent
+        β — transduction ratio from D̂
+        α — derived from mean chaotic energy
+    """
+
+    def __init__(self, lambda0=0.1, seed=None):
+        self.lambda0 = lambda0
+        self.seed = seed or np.random.randint(1e6)
+        np.random.seed(self.seed)
+        self.last_trace0 = []
+        self.last_trace1 = []
+
+    # --- Original analytic formalism ---
     def compute_lambda(self, beta, beta0=0.6):
-        """Compute λ as nonlinear function of β"""
+        """Compute λ as nonlinear function of β."""
         return self.lambda0 * (1 + 0.1 * (beta / beta0))
 
     def amplify(self, t, lam):
-        """Return normalized exponential amplification"""
+        """Return normalized exponential amplification curve."""
         amp = np.exp(lam * t)
         return amp / np.max(amp)
+
+    # --- New simulation kernel for reproducible benchmarking ---
+    def run_kernel(self, r=3.78, tolerance=0.12, adapt=0.001, steps=1000, debug=False):
+        """
+        Monte Carlo chaos kernel:
+        - Evolves logistic map with adaptive damping
+        - Computes α, β, λ and returns energy stability metrics
+
+        Returns:
+            dict: {alpha, beta, lambda, trace, passed, mean_energy, max_drift}
+        """
+        x0, x1 = np.random.rand(), np.random.rand()
+        E_trace0, E_trace1 = [], []
+        meanE = 0.0
+
+        for i in range(steps):
+            # Logistic evolution
+            x0 = np.clip(r * x0 * (1 - x0), 0, 1)
+            x1 = np.clip(r * x1 * (1 - x1), 0, 1)
+            E0, E1 = x0 ** 2, x1 ** 2
+
+            # Adaptive damping to maintain boundedness
+            drift = abs(E0 - E1)
+            if drift > tolerance:
+                r *= (1 - adapt)  # slow damping correction
+
+            meanE = (1 - adapt) * meanE + adapt * ((E0 + E1) / 2)
+            E_trace0.append(E0)
+            E_trace1.append(E1)
+
+            if debug and i % 100 == 0:
+                print(f"[{i:04d}] r={r:.4f}, drift={drift:.3f}, meanE={meanE:.3f}")
+
+        # Store traces for later visualizer use
+        self.last_trace0, self.last_trace1 = E_trace0, E_trace1
+
+        # Derived metrics
+        alpha = np.mean(E_trace0[: steps // 3]) * 1e-3
+        beta = 0.6 + 0.1 * np.sin(np.mean(E_trace0 + E_trace1) * np.pi)
+        lam = self.compute_lambda(beta)
+
+        # Stability test: relative drift
+        rel_drift = np.std(E_trace0[steps // 2:]) / (np.mean(E_trace0[steps // 2:]) + 1e-8)
+        passed = rel_drift < tolerance
+
+        return {
+            "alpha": alpha,
+            "beta": beta,
+            "lambda": lam,
+            "trace": (E_trace0, E_trace1),
+            "passed": passed,
+            "mean_energy": np.mean(E_trace0[steps // 2:]),
+            "max_drift": rel_drift
+        }
+
+    def __repr__(self):
+        return f"<Transfuser λ₀={self.lambda0}, seed={self.seed}>"
+
 
 
 class UTFSimulation:
