@@ -1,4 +1,4 @@
-[![DOI](https://sandbox.zenodo.org/badge/DOI/10.5072/zenodo.344960.svg)](https://doi.org/10.5072/zenodo.344960)
+[![DOI](https://zenodo.org/badge/DOI/10.5072/zenodo.344960.svg)](https://doi.org/10.5072/zenodo.344960)
 [![Zenodo DOI Sync](https://github.com/YOURUSER/utfv2/actions/workflows/zenodo_sync.yaml/badge.svg)](https://github.com/YOURUSER/utfv2/actions/workflows/zenodo_sync.yaml)
 
 
@@ -66,7 +66,9 @@ pre-commit install
 
 | Release | DOI | Status | Commit | Artifacts |
 |----------|-----|--------|---------|------------|
-| v0.9.0-beta | [unpublished](https://zenodo.org/record/unpublished) | ![](https://img.shields.io/badge/UNKNOWN-DOI-gray?logo=zenodo) | [`e22c218`](https://github.com/${ github.repository }/commit/e22c218) | [f_chaos_kernel.png](./figures\f_chaos_kernel.png) / [f_sweep_results.png](./figures\f_sweep_results.png) / [f_sweep_results.csv](./data\f_sweep_results.csv) |
+| v0.9.0-beta | [10.5072/zenodo.344960](https://sandbox.zenodo.org/record/344960) | ![](https://img.shields.io/badge/SANDBOX-DOI-lightgray?logo=zenodo) | [`d707d6d`](https://github.com/${ github.repository }/commit/d707d6d) | [f_chaos_kernel.png](./figures_chaos_kernel.png) / [f_sweep_results.png](./figures_sweep_results.png) / [release_doi_growth.png](./figures
+elease_doi_growth.png) |
+
 
 
 
@@ -76,7 +78,7 @@ pre-commit install
 
 
 ## 📈 Release Analytics  
-*(Auto-generated on 2025-10-06 15:03:53 UTC)*  
+*(Auto-generated on 2025-10-06 16:06:37 UTC)*  
 
 ![DOI Growth](figures/release_doi_growth.png)  
 ![Environment Timeline](figures/release_environment_timeline.png)  
@@ -87,6 +89,7 @@ pre-commit install
 **Total Releases:** `2`  
 
 ---
+
 
 
 
