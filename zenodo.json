@@ -1,35 +1,31 @@
-
----
-
-## 📄 2. `zenodo.json`
-```json
 {
-  "title": "Unified Transmutation Framework (UTF-2.0) Benchmark Dataset",
-  "creators": [
-    {
-      "name": "Boonsup Waikham",
-      "affiliation": "Independent Researcher"
-    }
-  ],
-  "description": "A reproducible, open-source benchmark implementing the Unified Transmutation Framework (UTF-2.0). Includes Colab notebook, Python modules, and sample datasets modeling the coupling between quantum transmutation (T̂), thermodynamic transduction (D̂), and classical chaos (F̂).",
-  "keywords": [
-    "quantum chaos",
-    "decoherence",
-    "energy transport",
-    "multi-scale modeling",
-    "reproducible research"
-  ],
-  "license": "MIT",
-  "upload_type": "dataset",
-  "access_right": "open",
-  "notes": "Companion to the UTF-2.0 arXiv preprint. Contains runnable Colab notebook and reproducibility scripts.",
-  "related_identifiers": [
-    {
-      "identifier": "https://arxiv.org/abs/[your-arxiv-id]",
-      "relation": "isSupplementTo",
-      "scheme": "url"
-    }
-  ],
-  "version": "1.0",
-  "publication_date": "2025-10-06"
+  "metadata": {
+    "title": "UTF-2.0 Reproducibility Framework",
+    "upload_type": "software",
+    "description": "Unified Transmutation Framework (UTF-2.0): reproducible simulation and benchmarking ecosystem.",
+    "creators": [
+      {
+        "name": "Boonsup Waikham",
+        "affiliation": "Independent Science Evangelist",
+        "orcid": "https://orcid.org/0009-0000-7693-7295"
+      }
+    ],
+    "keywords": [
+      "reproducibility",
+      "quantum chaos",
+      "multi-scale energy transport",
+      "open science",
+      "Zenodo benchmarking",
+      "Monte Carlo tuning",
+      "UTF-2.0",
+      "decoherence",
+      "chaotic diffusion",
+      "scientific workflow",
+      "arXiv integration",
+      "GitHub Actions"
+    ]
+  },
+  "version": "v1.0.0",
+  "publication_date": "2025-10-06",
+  "doi": "10.5072/zenodo.344960"
 }

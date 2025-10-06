@@ -1,8 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this work, please cite it using the following metadata."
 title: "Unified Transmutation Framework (UTF-2.0)"
-doi: "10.xxxx/zenodo.xxxxxxx"
-version: "v2.0.0"
+version: v1.0.0
 date-released: "2025-10-06"
 repository-code: "https://github.com/boonsupw/utf2_benchmark"
 commit: "abcdef1"
@@ -16,7 +15,7 @@ abstract: >
 authors:
   - family-names: "Waikham"
     given-names: "Boonsup"
-    orcid: "https://orcid.org/0000-0002-XXXX-XXXX"
+    orcid: "https://orcid.org/0009-0000-7693-7295"
     affiliation: "Independent Researcher"
   - family-names: "Nguyen"
     given-names: "Lan"
@@ -44,3 +43,6 @@ keywords:
   - open systems
   - energy transduction
   - reproducible research
+identifiers:
+  - type: doi
+    value: 10.5072/zenodo.344960

@@ -157,3 +157,18 @@ EOF
           git add tex/references.bib citation.bib
           git commit -m "docs: append UTF-2.0 citation to tex/references.bib for release ${{ github.ref_name }}" || echo "No changes"
           git push origin HEAD:${{ github.ref_name }}
+
+- name: Upload to Zenodo
+  env:
+    ZENODO_CLIENT_ID: ${{ secrets.ZENODO_CLIENT_ID }}
+    ZENODO_CLIENT_SECRET: ${{ secrets.ZENODO_CLIENT_SECRET }}
+  run: python scripts/zenodo_upload.py
+
+- name: Update README with badge + plot
+  run: python scripts/update_readme_badge.py
+
+- name: Commit updated docs
+  run: |
+    git add README.md figures/f_tuning_latest.png
+    git commit -m "docs: auto-update README with DOI badge and latest plot"
+    git push
