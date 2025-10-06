@@ -58,3 +58,31 @@ pre-commit install
 
 ![f_chaos_kernel](figures/f_chaos_kernel.png)
 ![f_sweep_results](figures/f_sweep_results.png)
+
+
+## 📦 Release Dashboard
+
+| Release | DOI | Status | Commit | Artifacts |
+|----------|-----|--------|---------|------------|
+| v0.9.0-beta | [unpublished](https://zenodo.org/record/unpublished) | ![](https://img.shields.io/badge/UNKNOWN-DOI-gray?logo=zenodo) | [`e22c218`](https://github.com/${ github.repository }/commit/e22c218) | [f_chaos_kernel.png](./figures\f_chaos_kernel.png) / [f_sweep_results.png](./figures\f_sweep_results.png) / [f_sweep_results.csv](./data\f_sweep_results.csv) |
+
+
+
+
+
+
+
+## 📈 Release Analytics  
+*(Auto-generated on 2025-10-06 14:53:28 UTC)*  
+
+![DOI Growth](figures/release_doi_growth.png)  
+![Environment Timeline](figures/release_environment_timeline.png)  
+![Environment Density](figures/release_environment_density.png)  
+
+**Latest DOI:** `10.5072/zenodo.344960`  
+**Environment:** `sandbox`  
+**Total Releases:** `2`  
+
+---
+
+
