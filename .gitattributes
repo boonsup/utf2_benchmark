@@ -1,0 +1,66 @@
+# ===============================================
+# UTFv2 Reproducibility Repository — .gitattributes
+# Ensures consistent text normalization, LF endings,
+# clean diffs, and reproducible Zenodo archives.
+# ===============================================
+
+# --- Text normalization ---
+* text=auto eol=lf
+
+# --- Source code ---
+*.py      text diff=python
+*.ipynb   text
+*.sh      text eol=lf
+*.bat     text eol=crlf
+*.yml     text
+*.yaml    text
+*.json    text
+*.toml    text
+
+# --- Documentation ---
+*.md      text diff=markdown
+*.txt     text
+*.rst     text
+
+# --- LaTeX files ---
+*.tex     text diff=tex
+*.bib     text diff=tex
+*.sty     text diff=tex
+*.cls     text diff=tex
+
+# --- Data ---
+*.csv     text
+*.tsv     text
+*.json    text
+*.yaml    text
+
+# --- Figures & binary assets ---
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.pdf     binary
+*.svg     text
+*.zip     binary
+*.gz      binary
+
+# --- Platform & IDE settings ---
+*.bat     text eol=crlf
+*.cmd     text eol=crlf
+*.ps1     text eol=crlf
+*.ini     text
+*.cfg     text
+
+# --- GitHub linguist overrides (for correct repo classification) ---
+*.ipynb linguist-language=Python
+*.tex   linguist-language=TeX
+*.bib   linguist-language=BibTeX
+
+# --- Prevent diffs on binary files ---
+*.zip -diff
+*.png -diff
+*.jpg -diff
+*.pdf -diff
+
+# --- Explicit safe files for Zenodo bundling ---
+data/* text
+figures/* binary
