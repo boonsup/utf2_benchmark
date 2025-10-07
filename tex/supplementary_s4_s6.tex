@@ -1,0 +1,62 @@
+% =====================================================================
+% Supplementary Section S4--S6: Aggregated Chaos and Stability Analysis
+% UTFv2 --- Generated automatically (Phase 7.6)
+% =====================================================================
+
+\clearpage
+\appendix
+\section*{Supplementary Section S4--S6: Aggregated Chaos and Stability Analysis}
+
+\noindent
+This section summarizes the post-review supplementary validation experiments,
+covering three main diagnostic layers:
+\begin{enumerate}
+  \item \textbf{S4:} $\eta$--$\lambda$ stability phase map showing the domain of bounded chaotic growth.
+  \item \textbf{S5:} Noise-to-$\tau_{\mathrm{crit}}$ critical ratio trends across varying $\lambda$.
+  \item \textbf{S6:} Drift distribution consistency confirming ergodic boundedness.
+\end{enumerate}
+
+\vspace{1em}
+
+% ---------------------------------------------------------------------
+% Figure: Supplementary S4--S6 summary
+% ---------------------------------------------------------------------
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/supplementary_S4_S6_summary_labeled.png}
+    \caption{
+        \textbf{S4--S6 Aggregated Overview.}
+        (\textbf{A}) Stability map in the $\eta$--$\lambda$ plane showing regions of chaotic boundedness.
+        (\textbf{B}) Noise--$\tau_{\mathrm{crit}}$ relation across three representative $\lambda$ values.
+        (\textbf{C}) Drift distribution histogram showing energy ergodicity.
+        Each subplot corresponds to results derived from Sections~S4--S6 in this Supplementary Appendix.
+        See Table~\ref{tab:supplementary_summary} for quantitative summary metrics.
+    }
+    \label{fig:s4s6_summary}
+\end{figure}
+
+\vspace{1em}
+
+% ---------------------------------------------------------------------
+% Table: Supplementary S4--S6 quantitative summary
+% ---------------------------------------------------------------------
+\input{tex/supplementary_summary.tex}
+
+\noindent
+Table~\ref{tab:supplementary_summary} reports quantitative stability and drift metrics derived
+from the data files packaged in the reproducibility bundle:
+\begin{itemize}
+    \item \texttt{data/supplementary\_S4\_eta\_lambda.csv}
+    \item \texttt{data/supplementary\_S5\_noise\_tau.csv}
+    \item \texttt{data/supplementary\_S6\_energy\_distribution.csv}
+    \item \texttt{data/supplementary\_summary.csv}
+\end{itemize}
+
+All simulations were performed under the same deterministic seeding protocol
+as the main text (\texttt{UTFv2-RevC.1}) ensuring full numerical reproducibility.
+The complete dataset and figure bundle are archived on Zenodo under DOI: \texttt{10.5072/zenodo.344960}.
+
+\vspace{2em}
+\hrule
+\vspace{1em}
+\textit{Generated automatically by \texttt{scripts/generate\_supplementary\_exports.py}.}

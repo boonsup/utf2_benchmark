@@ -1,0 +1,141 @@
+name: 🧬 UTFv2 Multi-Stage Pipeline (Test → Sandbox → Production)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  id-token: write
+  actions: read
+
+jobs:
+  # ---------------------------------------------------
+  # 1️⃣ TEST STAGE
+  # ---------------------------------------------------
+  test:
+    name: ✅ Test & Validate UTFv2 Core
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🧰 Setup Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: utf2
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: 🧪 Run Unit Tests
+        shell: bash -l {0}
+        run: |
+          conda install -y pytest matplotlib pandas numpy
+          pytest -v --maxfail=1 --disable-warnings
+
+      - name: 🧩 Validate Notebook Execution
+        shell: bash -l {0}
+        run: |
+          conda install -y jupyter nbconvert
+          jupyter nbconvert --to notebook --execute notebooks/utf_main.ipynb --output utf_validated.ipynb
+          echo "✅ Notebook executed successfully"
+
+  # ---------------------------------------------------
+  # 2️⃣ SANDBOX RELEASE (DRY-RUN)
+  # ---------------------------------------------------
+  sandbox:
+    name: 🧪 Sandbox DOI Sync (Dry-Run)
+    needs: [test]
+    if: github.event.release.prerelease == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: utf2
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: 🔄 Run Sandbox Upload (Dry-Run)
+        shell: bash -l {0}
+        run: |
+          python zenodo_upload.py --sandbox
+          python scripts/update_doi_references.py --doi "10.5072/zenodo.344960" \
+              --readme README.md --cff CITATION.cff --zenodo zenodo.json --bib tex/references.bib --with-keywords true
+
+      - name: 🧾 Commit Sandbox DOI Updates
+        run: |
+          git config user.name "utf-bot"
+          git config user.email "utf-bot@users.noreply.github.com"
+          git add README.md CITATION.cff zenodo.json tex/references.bib || true
+          git commit -m "🧪 Sandbox DOI dry-run auto-sync" || true
+          git push origin zenodo-dryrun || true
+
+      - name: 💬 Post Sandbox Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.payload.release.id,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "🧪 Sandbox DOI test complete → `10.5072/zenodo.344960`"
+            })
+
+  # ---------------------------------------------------
+  # 3️⃣ PRODUCTION RELEASE
+  # ---------------------------------------------------
+  production:
+    name: 🚀 Production DOI Sync & Publish
+    needs: [test]
+    if: github.event.release.prerelease == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          activate-environment: utf2
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      - name: 🔧 Install Dependencies
+        shell: bash -l {0}
+        run: |
+          conda install -y python-dotenv requests pyyaml pandas matplotlib
+          pip install tomlkit
+
+      - name: 📦 Upload & Sync with Zenodo (Production)
+        shell: bash -l {0}
+        run: |
+          python zenodo_upload.py
+          python scripts/update_doi_references.py \
+            --doi $(grep -oE '10\.5281/zenodo\.[0-9]+' zenodo.json | head -n1) \
+            --readme README.md --cff CITATION.cff --zenodo zenodo.json --bib tex/references.bib --with-keywords true
+          python scripts/auto_embed_figures.py
+          python scripts/git_commit_release.py --ci --tag ${{ github.ref_name }}
+
+      - name: 🧾 Verify Sy
+      - name: 🧾 Update README Release Dashboard
+        shell: bash -l {0}
+        run: |
+          python scripts/build_release_dashboard.py
+          git add README.md
+          git commit -m "📦 Update release dashboard table"
+          git push
+
+- name: 📦 Pack arXiv and Zenodo bundles
+  run: |
+    python scripts/pack_arxiv_preprint.py --version v1.0 --doi $DOI
+    python scripts/pack_zenodo_bundle.py

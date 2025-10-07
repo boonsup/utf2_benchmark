@@ -1,0 +1,40 @@
+% =====================================================================
+% Supplementary Section S3: Quantum–Classical Coupling Test
+% =====================================================================
+
+\clearpage
+\section*{Supplementary Section S3: Quantum–Classical Coupling Test}
+
+\noindent
+Section~S3 explores the coupling consistency between the quantum operator
+($\hat{D}$, decoherence domain) and the classical chaotic operator
+($\hat{F}$, transfusion domain). The hybrid bridge enforces stability across
+the decoherence threshold via the coupling parameter $\eta$, ensuring
+that energy leakage remains bounded.
+
+The test configuration follows:
+\[
+\eta_c = \frac{\partial E_{\mathrm{q}}}{\partial t}
+         \bigg/ \frac{\partial E_{\mathrm{c}}}{\partial t},
+\quad
+\text{where } E_{\mathrm{q}}, E_{\mathrm{c}} \text{ denote quantum and classical energies.}
+\]
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/supplementary_S3_coupling_variation.png}
+    \caption{
+        \textbf{S3. Quantum–Classical Coupling Variation.}
+        The normalized energy exchange between the decoherence ($\hat{D}$)
+        and chaos ($\hat{F}$) domains, evaluated for different coupling
+        strengths $\eta$. The equilibrium plateau corresponds to the
+        optimal $\eta_c$ at which energy conservation and stability are
+        simultaneously satisfied.
+    }
+    \label{fig:s3_coupling}
+\end{figure}
+
+\vspace{1em}
+The numerical data supporting Fig.~\ref{fig:s3_coupling} are stored in
+\texttt{data/supplementary\_S3\_coupling.csv}, including the evaluated
+$\eta$, $\lambda$, and energy drift metrics.

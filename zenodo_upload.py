@@ -186,7 +186,7 @@ def upload_to_zenodo(sandbox=False):
     # Ensure deposition exists
     if not deposition_id:
         print("🆕 Creating new deposition…")
-        dep_resp = requests.post(f"{api_base}/deposit/depositions",
+        dep_resp = requests.post(f"{api}/deposit/depositions",
                                  params={'access_token': token},
                                  json={}, headers={"Content-Type": "application/json"})
         dep_resp.raise_for_status()

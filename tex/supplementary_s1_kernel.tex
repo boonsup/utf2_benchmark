@@ -1,0 +1,37 @@
+% =====================================================================
+% Supplementary Section S1: Kernel Simulation Architecture
+% =====================================================================
+
+\clearpage
+\section*{Supplementary Section S1: Kernel Simulation Architecture}
+
+\noindent
+Section~S1 presents the reference simulation kernel used to reproduce the
+UTFv2 computational experiments. This kernel serves as the deterministic backbone
+for the full pipeline, integrating the $\hat{T}$, $\hat{D}$, and $\hat{F}$
+operators within a modular simulation loop.
+
+The implementation employs explicit time‐stepping with adaptive control
+to ensure numerical stability during chaotic amplification sweeps.
+All results are initialized with fixed random seeds (\texttt{seed = 42})
+and checkpointed for full replay reproducibility.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{figures/supplementary_S1_kernel_architecture.png}
+    \caption{
+        \textbf{S1. Kernel Execution Flow.}
+        The UTFv2 simulation kernel implements three interacting operators:
+        $\hat{T}$ (energy transmutation), $\hat{D}$ (decoherence diffusion),
+        and $\hat{F}$ (chaotic transfusion). The figure depicts the sequence
+        of operations and inter‐operator data exchange, highlighting the
+        adaptive $\Delta t$ controller for maintaining stable chaotic evolution.
+    }
+    \label{fig:s1_kernel}
+\end{figure}
+
+\vspace{1em}
+The corresponding CSV file
+(\texttt{data/supplementary\_S1\_kernel.csv})
+contains the logged evolution of the $\alpha$, $\beta$, and $\lambda$
+coefficients used for the kernel performance benchmarks.

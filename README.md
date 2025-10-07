@@ -62,6 +62,18 @@ pre-commit install
 ![release_environment_timeline](figures/release_environment_timeline.png)
 ![release_doi_growth](figures/release_doi_growth.png)
 
+### 🧪 Peer-Review Addendum: Composite Superoperator Toy
+
+We added a toy model for the reviewer-requested coupling:
+\[
+\mathcal{L}_{\mathrm{UTF}} = \mathcal{L}_T + \mathcal{L}_D + \mathcal{L}_F + \eta[\mathcal{L}_D, \mathcal{L}_F].
+\]
+
+- **Run noise-robustness grid** (Windows-friendly):
+  ```cmd
+  python scripts\run_noise_robustness.py --etas 0.0,0.05,0.1,0.2 --lams 0.08,0.10,0.12 --sigmas 0.0,1e-3,2e-3,5e-3
+
+
 ## 📦 Release Dashboard
 
 | Release | DOI | Status | Commit | Artifacts |
@@ -93,3 +105,10 @@ elease_doi_growth.png) |
 
 
 
+### 📘 Supplementary Figures (S4–S6)
+
+| Section | Description | CSV | Figure |
+|----------|--------------|------|---------|
+| S4 | DF Coupling Phase Stability (η–λ) | [`data/supplementary_S4_eta_lambda.csv`](data/supplementary_S4_eta_lambda.csv) | ![](figures/supplementary_S4_eta_lambda.png) |
+| S5 | Noise Robustness vs τ_crit | [`data/supplementary_S5_noise_tau.csv`](data/supplementary_S5_noise_tau.csv) | ![](figures/supplementary_S5_noise_tau.png) |
+| S6 | Energy Drift Distribution | [`data/supplementary_S6_energy_distribution.csv`](data/supplementary_S6_energy_distribution.csv) | ![](figures/supplementary_S6_energy_distribution.png) |
