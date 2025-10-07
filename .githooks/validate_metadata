@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# UTF-2.0 Metadata Validation Pre-Commit Hook
+# -------------------------------------------
+# Runs the consistency validator before every commit.
+# Prevents commits that would desynchronize DOI, version,
+# or publication date across zenodo.json, CITATION.cff,
+# citation.bib, and tex/references.bib.
+
+echo "🔍 UTF-2.0 pre-commit metadata check running..."
+
+SCRIPT_PATH="scripts/validate_metadata_sync.py"
+
+if [ ! -f "$SCRIPT_PATH" ]; then
+  echo "⚠️  Missing $SCRIPT_PATH — skipping validation."
+  exit 0
+fi
+
+python3 "$SCRIPT_PATH"
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+  echo "🚫 Metadata validation failed. Please synchronize metadata before committing."
+  echo "   Run: python3 scripts/update_citation_from_zenodo.py --token \$ZENODO_TOKEN"
+  echo "   Then: python3 scripts/export_citation_bibtex.py --append"
+  exit 1
+fi
+
+echo "✅ Metadata consistent. Proceeding with commit."
+exit 0
